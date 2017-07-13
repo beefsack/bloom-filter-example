@@ -1,0 +1,7 @@
+[package]
+name = "bloom-filter-example"
+version = "0.1.0"
+authors = ["Michael Alexander"]
+
+[dependencies]
+rand = "*"
