@@ -19,13 +19,13 @@ fn main() {
     // For simplicity, the bloom filter is represented as an array of booleans
     let mut filter: [bool; SIZE] = [false; SIZE];
 
-    // For the test, input is unique values between 0 and 100000
-    let mut input: Vec<usize> = (0..100000).collect();
+    // For the test, input is unique values larger than all the hash function moduli
+    let mut input: Vec<usize> = (900000..1000000).take(SIZE).collect();
     rng.shuffle(&mut input);
 
     // Take some amount of the input and count false positives while inserting into the bloom filter
     let mut false_positives: usize = 0;
-    for i in input.into_iter().take(SIZE) {
+    for i in input.into_iter() {
         if may_contain(&filter, i, num_filters) {
             false_positives += 1;
         }
