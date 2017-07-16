@@ -30,13 +30,11 @@ class: middle
 
 # First, what is a hash set?
 
-To understand Bloom filters, it helps to understand simple hash sets.
+To understand Bloom filters, first think of a really crude hash set which is
+backed by a bit array, and to insert a value you take the hash of the value and
+set the corresponding bit to `1`
 
-* Hash sets are often just bit arrays (can be thought of as an array of
-  booleans)
-* Values are inserted using hash of input
-
-A shitty example of a hash function just uses modulus:
+A shitty example of a hash function could just use modulus:
 
 ```rust
 input % 10
@@ -76,8 +74,10 @@ function might look like:
 </table>
 
 There's a collision above, and most hash set implementations have collision
-handling built in, usually just using equality and some form of fallback
-storage.
+handling built in, usually storing the values themselves and doing a secondary
+equality check.
+
+Handling collisions this way means that hash sets grow as values are inserted.
 
 ---
 
@@ -144,7 +144,7 @@ inserting this into the Bloom filter results in:
 </table>
 
 And when reading values from the Bloom filter, all hashes are read and the
-result is `true` iff all hashes in the Bloom filter are `1`.
+result is `true` if all hashes in the Bloom filter are `1`.
 
 But what if we try to lookup `42`?
 
